@@ -1,34 +1,30 @@
-# endpoint-factory
+# vue-rest-axios
 
-## Project setup
-```
-yarn install
-```
+## Constructor Options
+### Url
+String to use as base of rest calls
+id(s) can be injected using `:id`  
+example:  
+`www.example.com/something/:id/details`  
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+### Axios options
+`axios` Axios Instance  
+`allowParallelRequests` remove endpoint abort trigger when calling while a request is in progress  
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## Outputs
+### Status
+Status of current endpoint call available on instance via `this.is`  
+example:
+`this.is.loading`  
+`this.is.loaded`  
+`this.is.invalid`  
 
-### Run your unit tests
-```
-yarn test:unit
-```
+### Response
+Axios response (when available)
 
-### Run your end-to-end tests
-```
-yarn test:e2e
-```
+### Error
+Axios error (when available)
 
-### Lints and fixes files
-```
-yarn lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
