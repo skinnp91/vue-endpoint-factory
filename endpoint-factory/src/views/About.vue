@@ -1,6 +1,9 @@
 <template>
   <div class="about">
     <h1>This is an about page</h1>
+    <div class="instructions">
+      select a country, input a valid postal code, and hit the "Get Data" button
+    </div>
     <div class="inputs">
       <select v-model="country">
         <option value="us">USA</option>
@@ -8,6 +11,7 @@
       <input v-model="postalCode" />
       <button @click="getData">Get Data</button>
     </div>
+    <div>{{ zipcodeEndpoint ? zipcodeEndpoint.is : '' }}</div>
     <div>{{ zipcodeEndpoint ? zipcodeEndpoint.response : '' }}</div>
   </div>
 </template>
@@ -19,7 +23,7 @@ export default {
   data: () => {
     return {
       zipcodeEndpoint: null as RestEndpoint | null,
-      axiosInstance: axios.create({}),
+      axiosInstance: axios.create({transformResponse: [(data: any) => data.data]}),
       country: null,
       postalCode: null,
     };
