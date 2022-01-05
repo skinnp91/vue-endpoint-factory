@@ -1,8 +1,18 @@
-import { requestMethods } from '@/types/enums';
-import type { RestEndpointFactoryOptions, EndpointInstance, EndpointStatus, inputIds } from '@/types';
-import axios, { AxiosResponse, AxiosError, AxiosRequestConfig, Method } from 'axios';
+import { requestMethods } from "@/types/enums";
+import type {
+  RestEndpointFactoryOptions,
+  EndpointInstance,
+  EndpointStatus,
+  inputIds,
+} from "@/types";
+import axios, {
+  AxiosResponse,
+  AxiosError,
+  AxiosRequestConfig,
+  Method,
+} from "axios";
 
-export class RestEndpointFactory {
+export default class RestEndpointFactory {
   url: string;
   instance: EndpointInstance;
   is: EndpointStatus;
@@ -11,8 +21,8 @@ export class RestEndpointFactory {
 
   constructor(url: string, options: RestEndpointFactoryOptions) {
     this.url = url;
-    if (this.url[this.url.length - 1] !== '/') {
-      this.url += '/';
+    if (this.url[this.url.length - 1] !== "/" && options.trailingSlash) {
+      this.url += "/";
     }
     this.instance = {
       axios: options.axiosInstance,
@@ -22,21 +32,23 @@ export class RestEndpointFactory {
       loading: false,
       loaded: false,
       invalid: false,
-    }
+    };
   }
 
   getUrl(ids: inputIds = []) {
-    let wrappedIds : string[] = ids as [];
-    if (typeof ids === 'string' || ids instanceof String) {
+    let wrappedIds: string[] = ids as [];
+    if (typeof ids === "string" || ids instanceof String) {
       wrappedIds = [ids as string];
     }
-    const idsToReplace = (this.url.match(/\:id/g) || []).length;
+    const idsToReplace = (this.url.match(/:id/g) || []).length;
     if (idsToReplace && idsToReplace !== wrappedIds.length) {
-      throw new Error(`${idsToReplace} id(s) required for this url: ${this.url}`);
+      throw new Error(
+        `${idsToReplace} id(s) required for this url: ${this.url}`
+      );
     }
     if (idsToReplace) {
       let finalUrl = this.url;
-      wrappedIds.forEach((id) => finalUrl = finalUrl.replace(':id', id));
+      wrappedIds.forEach((id) => (finalUrl = finalUrl.replace(":id", id)));
       return finalUrl;
     }
     if (wrappedIds.length === 1) {
@@ -45,18 +57,37 @@ export class RestEndpointFactory {
     return this.url;
   }
 
-  async request(method: Method, url: string, config: AxiosRequestConfig={}, data=null) {
-    let response = null;
+  async request(
+    method: Method,
+    url: string,
+    config: AxiosRequestConfig = {},
+    data = null
+  ) {
+    console.log(this);
     this.is.loading = true;
     try {
-      if (this.instance.abortController && !this.instance.allowParallelRequests) {
+      if (
+        this.instance.abortController &&
+        !this.instance.allowParallelRequests
+      ) {
         this.instance.abortController.abort();
       }
       this.instance.abortController = new AbortController();
       if (data != null) {
-        response = axios.request({ ...config, method, url, data, signal: this.instance.abortController.signal });
+        this.response = await axios.request({
+          ...config,
+          method,
+          url,
+          data,
+          signal: this.instance.abortController.signal,
+        });
+      } else {
+        this.response = await axios.request({
+          ...config,
+          url,
+          signal: this.instance.abortController.signal,
+        });
       }
-      response = axios.request({ ...config, url });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         this.error = error;
@@ -67,7 +98,7 @@ export class RestEndpointFactory {
     this.is.loading = false;
     this.is.loaded = true;
     this.instance.abortController = undefined;
-    return response;
+    return this.response;
   }
 
   async delete(ids: inputIds, data: any, config?: AxiosRequestConfig) {

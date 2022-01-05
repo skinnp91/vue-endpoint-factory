@@ -11,6 +11,11 @@
 ## Jest
 ## Cypress
 
+# Should I
+## allow response adapter as options?
+- issues with list vs detail adapters
+
+
 # API testing source
 ## zippopatam zip code info
 Structure: api.zippopotam.us/country/postal-code

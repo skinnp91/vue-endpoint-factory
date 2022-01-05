@@ -1,23 +1,24 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance } from "axios";
 
 export interface RestEndpointFactoryOptions {
-  axiosInstance: AxiosInstance,
-  allowParallelRequests?: Boolean,
+  axiosInstance: AxiosInstance;
+  allowParallelRequests?: boolean;
+  trailingSlash: boolean;
 }
 
 export interface EndpointInstance {
-  axios: AxiosInstance,
-  allowParallelRequests: Boolean,
-  abortController?: AbortController,
+  axios: AxiosInstance;
+  allowParallelRequests: boolean;
+  abortController?: AbortController;
 }
 
 export interface EndpointStatus {
-  /** currently requesting new data */ 
-  loading: Boolean,
-  /** has completed first request */ 
-  loaded: Boolean,
+  /** currently requesting new data */
+  loading: boolean;
+  /** has completed first request */
+  loaded: boolean;
   /** last request returned error */
-  invalid: Boolean,
+  invalid: boolean;
 }
 
 export type inputIds = string[] | string;
