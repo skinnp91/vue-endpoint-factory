@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 
-export interface RestEndpointFactoryOptions {
+export interface RestEndpointOptions {
   axiosInstance: AxiosInstance;
   allowParallelRequests?: boolean;
   trailingSlash: boolean;

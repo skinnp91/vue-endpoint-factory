@@ -1,6 +1,6 @@
 import { requestMethods } from "@/types/enums";
 import type {
-  RestEndpointFactoryOptions,
+  RestEndpointOptions,
   EndpointInstance,
   EndpointStatus,
   inputIds,
@@ -12,14 +12,14 @@ import axios, {
   Method,
 } from "axios";
 
-export default class RestEndpointFactory {
+export default class RestEndpoint {
   url: string;
   instance: EndpointInstance;
   is: EndpointStatus;
   response: AxiosResponse | null = null;
   error: AxiosError | null = null;
 
-  constructor(url: string, options: RestEndpointFactoryOptions) {
+  constructor(url: string, options: RestEndpointOptions) {
     this.url = url;
     if (this.url[this.url.length - 1] !== "/" && options.trailingSlash) {
       this.url += "/";

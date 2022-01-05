@@ -14,18 +14,18 @@
 
 <script lang="ts">
 import axios from "axios";
-import RestEndpointFactory from "@/utils/base.ts";
+import RestEndpoint from "@/utils/base.ts";
 export default {
   data: () => {
     return {
-      zipcodeEndpoint: null as RestEndpointFactory | null,
+      zipcodeEndpoint: null as RestEndpoint | null,
       axiosInstance: axios.create({}),
       country: null,
       postalCode: null,
     };
   },
   mounted(): void {
-    this.zipcodeEndpoint = new RestEndpointFactory(
+    this.zipcodeEndpoint = new RestEndpoint(
       "http://api.zippopotam.us/:id/:id",
       { axiosInstance: this.axiosInstance }
     );
