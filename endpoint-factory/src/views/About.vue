@@ -23,9 +23,7 @@ export default {
   data: (): { [key: string]: any } => {
     return {
       zipcodeEndpoint: null as RestEndpoint | null,
-      axiosInstance: axios.create({
-        transformResponse: [(data: { data: unknown }) => data.data],
-      }),
+      axiosInstance: axios.create(),
       country: null,
       postalCode: null,
     };
