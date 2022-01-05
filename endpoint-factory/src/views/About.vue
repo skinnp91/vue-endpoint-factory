@@ -11,8 +11,8 @@
       <input v-model="postalCode" />
       <button @click="getData">Get Data</button>
     </div>
-    <div>{{ zipcodeEndpoint ? zipcodeEndpoint.is : '' }}</div>
-    <div>{{ zipcodeEndpoint ? zipcodeEndpoint.response : '' }}</div>
+    <div>{{ zipcodeEndpoint ? zipcodeEndpoint.is : "" }}</div>
+    <div>{{ zipcodeEndpoint ? zipcodeEndpoint.response : "" }}</div>
   </div>
 </template>
 
@@ -20,10 +20,12 @@
 import axios from "axios";
 import RestEndpoint from "@/utils/base.ts";
 export default {
-  data: () => {
+  data: (): { [key: string]: any } => {
     return {
       zipcodeEndpoint: null as RestEndpoint | null,
-      axiosInstance: axios.create({transformResponse: [(data: any) => data.data]}),
+      axiosInstance: axios.create({
+        transformResponse: [(data: { data: unknown }) => data.data],
+      }),
       country: null,
       postalCode: null,
     };
@@ -35,10 +37,10 @@ export default {
     );
   },
   methods: {
-    getData() {
+    getData(): void {
       this.zipcodeEndpoint?.get([this.country, this.postalCode]);
-    }
-  }
+    },
+  },
 };
 </script>
 
