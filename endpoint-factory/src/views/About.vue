@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import axios from "axios";
-import RestEndpoint from "@/utils/base.ts";
+import { RestEndpoint } from "vue-axios-rest/dist";
 export default {
   data: (): { [key: string]: any } => {
     return {
