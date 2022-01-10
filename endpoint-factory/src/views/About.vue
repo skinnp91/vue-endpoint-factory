@@ -18,8 +18,10 @@
 
 <script lang="ts">
 import axios from "axios";
-import { RestEndpoint } from "vue-axios-rest/dist";
-export default {
+import RestEndpoint from "vue-axios-rest/dist/RestEndpoint";
+import Vue from 'vue';
+
+export default Vue.extend({
   data: (): { [key: string]: any } => {
     return {
       zipcodeEndpoint: null as RestEndpoint | null,
@@ -39,7 +41,7 @@ export default {
       this.zipcodeEndpoint?.get([this.country, this.postalCode]);
     },
   },
-};
+});
 </script>
 
 <style lang="scss" scoped></style>
